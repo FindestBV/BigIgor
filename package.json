@@ -1,6 +1,7 @@
 {
   "name": "big-igor",
   "version": "1.0.0",
+  "type": "module",
   "private": true,
   "description": "A Soviet-themed gamified task management system",
   "scripts": {

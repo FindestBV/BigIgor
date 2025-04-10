@@ -5,6 +5,7 @@ import { useLevelStore } from './store/levelStore';
 import { api } from './services/api';
 import Confetti from 'react-confetti';
 import { useWindowSize } from '@uidotdev/usehooks'
+import audioVictory from './assets/1984.mp3'
 
 interface Task {
   id: number;
@@ -26,7 +27,6 @@ function App() {
   const [expandedLevel, setExpandedLevel] = useState<string | null>(null);
   const [showConfetti, setShowConfetti] = useState(false);
   const { width, height } = useWindowSize();
-
   const levels = useLevelStore((state) => state.levels);
   const toggleTask = useLevelStore((state) => state.toggleTask);
   const calculateLevelProgress = useLevelStore((state) => state.calculateLevelProgress);
@@ -159,6 +159,12 @@ function App() {
         // Fire confetti
         setShowConfetti(true);
         setTimeout(() => setShowConfetti(false), 10000);
+        
+      } else if (allTasksCompleted && levelId === 5) {
+        console.log('gets this far');
+        // @ts-ignore 
+        audioVictory.play(); 
+        
       }
     } catch (error) {
       console.error('Error toggling task:', error);
@@ -167,8 +173,6 @@ function App() {
 
   return (
     <div className="min-h-screen bg-black text-gray-100 py-12 px-4 backdrop-blur-sm">
-      {/* @ts-ignore */}
-      {showConfetti && <Confetti width={width} height={height} recycle={false} numberOfPieces={750} />} 
       {/* Header */}
       <section className="relative w-full bg-black text-white overflow-hidden pb-8">
         {/* @ts-ignore */}
@@ -269,7 +273,8 @@ function App() {
           </div>
         </div>
       </div>
-
+      {/* @ts-ignore */}
+      {showConfetti && <Confetti width={width} height={height} recycle={false} numberOfPieces={1000} className="h-full" />} 
       {/* Levels */}
       <div className="max-w-4xl mx-auto">
         {levels.map(level => {
